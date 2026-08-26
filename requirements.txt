@@ -1,0 +1,13 @@
+# System prerequisites:
+#   - Ollama installed and running
+#     ollama pull llama3.2        # text LLM
+#     ollama pull llava:13b       # multimodal model (figures)
+
+pymupdf>=1.24.0  # Text and image extraction from PDF (import fitz)
+sentence-transformers>=3.0.0
+transformers>=4.40.0
+torch>=2.2.0 
+chromadb>=0.5.0
+ollama>=0.2.0
+numpy>=1.26.0
+tqdm>=4.66.0 # progress bar
