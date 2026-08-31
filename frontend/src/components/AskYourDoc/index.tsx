@@ -8,13 +8,13 @@ import type { ChunkResult } from "../../types"
 import QueryBar from "./QueryBar"
 import AnswerPanel from "./AnswerPanel"
 import ChunksPanel from "./ChunksPanel"
-import PdfViewer from "./PdfViewer"
+import PdfViewer from "../PdfViewer"
 
 export default function AskYourDoc() {
   const [loading, setLoading] = useState(false)
-  const [error, setError]   = useState<string | null>(null)
-  const [answer, setAnswer] = useState("")
-  const [chunks, setChunks] = useState<ChunkResult[]>([])
+  const [error, setError]     = useState<string | null>(null)
+  const [answer, setAnswer]   = useState("")
+  const [chunks, setChunks]   = useState<ChunkResult[]>([])
   const [selected, setSelected] = useState<ChunkResult | null>(null)
 
   async function handleQuery(question: string) {
@@ -35,6 +35,9 @@ export default function AskYourDoc() {
     }
   }
 
+  const active = selected ?? chunks[0] ?? null
+  const siblingPages = [...new Set(chunks.map(c => c.page))].sort((a, b) => a - b)
+
   return (
     <div className="tab-layout">
       <div className="tab-layout__left">
@@ -44,7 +47,13 @@ export default function AskYourDoc() {
         <ChunksPanel chunks={chunks} selected={selected} onSelect={setSelected} />
       </div>
       <div className="tab-layout__right">
-        <PdfViewer chunks={chunks} selected={selected} />
+        <PdfViewer
+          page={active?.page ?? null}
+          text={active?.text}
+          siblingPages={siblingPages}
+          emptyMessage="The document will appear here after your first query."
+          highlightLabel="Extracted passage"
+        />
       </div>
     </div>
   )

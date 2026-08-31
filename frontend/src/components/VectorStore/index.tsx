@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { fetchAllChunks } from "../../api"
 import type { ChunkItem } from "../../types"
 import ChunkList from "./ChunkList"
-import PdfViewer from "./PdfViewer"
+import PdfViewer from "../PdfViewer"
 
 export default function VectorStore() {
   const [chunks, setChunks]     = useState<ChunkItem[]>([])
@@ -30,7 +30,13 @@ export default function VectorStore() {
         <ChunkList chunks={chunks} selected={selected} onSelect={setSelected} />
       </div>
       <div className="tab-layout__right">
-        <PdfViewer selected={selected} />
+        <PdfViewer
+          page={selected?.page ?? null}
+          text={selected?.text}
+          figureLabel={selected?.figure_label}
+          emptyMessage="Select a chunk on the left to see its page in the document."
+          highlightLabel="Chunk text"
+        />
       </div>
     </div>
   )

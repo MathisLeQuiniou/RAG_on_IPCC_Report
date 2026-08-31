@@ -26,7 +26,14 @@ export async function fetchAllChunks(): Promise<ChunksResponse> {
   return res.json()
 }
 
-/** Returns the URL of a PDF page rendered as a PNG image (1-indexed). */
-export function documentPageUrl(pageNum: number): string {
-  return `${API_BASE}/api/document/page/${pageNum}`
+/**
+ * Returns the URL of a PDF page rendered as a PNG image (1-indexed).
+ * When `highlight` is provided, the backend will search for that text on the
+ * page and draw a yellow highlight over it before rendering.
+ */
+export function documentPageUrl(pageNum: number, highlight?: string): string {
+  const base = `${API_BASE}/api/document/page/${pageNum}`
+  if (!highlight) return base
+  const cleaned = highlight.replace(/\n/g, " ").trim()
+  return `${base}?highlight=${encodeURIComponent(cleaned)}`
 }
