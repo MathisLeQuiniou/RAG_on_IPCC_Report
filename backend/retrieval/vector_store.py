@@ -151,3 +151,30 @@ class VectorStore:
 
     def count(self) -> int:
         return self._collection.count()
+
+    def get_all(self) -> list[dict]:
+        """
+        Retrieve every chunk stored in the collection.
+
+        Returns:
+            List of dicts {"id", "text", "metadata"}
+            sorted by page then chunk_index for ordered display.
+        """
+        result = self._collection.get(include=["documents", "metadatas"])
+
+        hits = [
+            {
+                "id": id_,
+                "text": doc,
+                "metadata": meta,
+            }
+            for id_, doc, meta in zip(
+                result["ids"],
+                result["documents"],
+                result["metadatas"],
+            )
+        ]
+
+        hits.sort(key=lambda h: (h["metadata"].get("page", 0), h["metadata"].get("chunk_index", 0)))
+        logger.debug(f"get_all() returned {len(hits)} chunks")
+        return hits

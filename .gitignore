@@ -17,5 +17,6 @@ db/
 # Image cache (generated during indexing)
 images_cache/
 
-# Input documents (large files, not tracked)
+# data (documents, logs -> not tracked)
 input_document/
+logs/

@@ -4,7 +4,7 @@ End-to-end RAG pipeline: query → retrieval → generation.
 This is the main entry point for querying the system in production.
 
 Minimal usage:
-    from src import RAGPipeline, Config
+    from backend import RAGPipeline, Config
 
     pipeline = RAGPipeline(Config())
     answer = pipeline.query("What are the main drivers of climate change?")
@@ -89,6 +89,40 @@ class RAGPipeline:
 
         # 3. Generation
         return self._llm.generate(prompt, stream=stream)
+
+
+    def query_with_hits(
+        self,
+        question: str,
+        top_k: int | None = None,
+        include_images: bool = True,
+    ) -> tuple[str, list[RetrievalHit]]:
+        """
+        Like query(), but also returns the retrieved hits alongside the answer.
+        Intended for API consumers that need both the answer and the source chunks.
+
+        Args:
+            question       : natural-language question
+            top_k          : number of chunks to retrieve (default: config.top_k)
+            include_images : include figure descriptions in the context
+
+        Returns:
+            Tuple of (answer string, list of RetrievalHit).
+        """
+        # 1. Retrieval
+        context, hits = self._retriever.retrieve_and_format(
+            query=question,
+            top_k=top_k,
+            include_images=include_images,
+        )
+
+        # 2. Prompt assembly
+        prompt = self._llm.build_rag_prompt(context=context, question=question)
+
+        # 3. Generation
+        answer = self._llm.generate(prompt, stream=False)
+
+        return answer, hits
 
     # *** Properties ******************************
     @property

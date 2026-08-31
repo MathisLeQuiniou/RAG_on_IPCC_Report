@@ -32,13 +32,13 @@ from pathlib import Path
 # Allow importing src/ from any working directory
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.utils import setup_logging, get_elapsed_time
-from src.config.config import Config
-from src.ingestion.loader import PDFLoader
-from src.ingestion.image_describer import ImageDescriber
-from src.ingestion.chunker import SemanticTokenChunker
-from src.retrieval.embedder import Embedder
-from src.retrieval.vector_store import VectorStore
+from backend.utils import setup_logging, get_elapsed_time
+from backend.config.config import Config
+from backend.ingestion.loader import PDFLoader
+from backend.ingestion.image_describer import ImageDescriber
+from backend.ingestion.chunker import SemanticTokenChunker
+from backend.retrieval.embedder import Embedder
+from backend.retrieval.vector_store import VectorStore
 
 logger = logging.getLogger(__name__)
 
@@ -220,7 +220,7 @@ def main() -> None:
     logger.info(f"  ChromaDB path        : {config.chroma_db_path}")
     logger.info("=" * 56)
     logger.info("To query the system:")
-    logger.info("  from src import RAGPipeline, Config")
+    logger.info("  from backend import RAGPipeline, Config")
     logger.info("  pipeline = RAGPipeline(Config())")
     logger.info('  print(pipeline.query("What are the key risks of climate change?"))')
     

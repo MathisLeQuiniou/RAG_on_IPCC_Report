@@ -2,7 +2,7 @@
 IPCC RAG — public surface.
 
 Typical usage:
-    from src import RAGPipeline, Config
+    from backend import RAGPipeline, Config
 
     pipeline = RAGPipeline(Config())
     answer = pipeline.query("What are the projected sea level rises by 2100?")

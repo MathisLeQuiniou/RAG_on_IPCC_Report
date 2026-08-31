@@ -1,0 +1,47 @@
+/* ── CSS variables ───────────────────────────────────────── */
+
+:root {
+  --color-bg:           #f9fafb;
+  --color-surface:      #ffffff;
+  --color-border:       #e5e7eb;
+  --color-hover:        #f3f4f6;
+  --color-text:         #111827;
+  --color-text-muted:   #6b7280;
+  --color-accent:       #2563eb;
+  --color-accent-light: #eff6ff;
+  --color-badge:        #7c3aed;
+  --color-error:        #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:           #0f172a;
+    --color-surface:      #1e293b;
+    --color-border:       #334155;
+    --color-hover:        #293548;
+    --color-text:         #f1f5f9;
+    --color-text-muted:   #94a3b8;
+    --color-accent:       #3b82f6;
+    --color-accent-light: #1e3a5f;
+    --color-badge:        #a78bfa;
+    --color-error:        #f87171;
+  }
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+ul { list-style: none; }
+
+button { font-family: inherit; }
